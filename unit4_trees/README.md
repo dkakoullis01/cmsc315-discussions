@@ -30,3 +30,12 @@ Your reflection should be approximately 150–200 words and address the followin
 1. What concepts or skills did you learn while completing this assignment?
 2. What challenges did you encounter, and how did you overcome them?
 3. Explain BST behavior and compare to how ordering works to create efficiency as compared to other data structures.
+
+Recent changes made:
+-Implemented a Binary Search Tree (BST) in Python to simulate a network firewall evaluating incoming port traffic.
+
+-Built recursive methods to insert network port numbers and search for specific ports.
+
+-Executed an in-order traversal to sort the ports in ascending order.
+
+-Handled edge cases including empty tree traversals and ignoring duplicate port insertions.
