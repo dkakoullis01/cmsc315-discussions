@@ -4,6 +4,7 @@ UNIT 8 DISCUSSION: BREADTH-FIRST SEARCH (BFS)
 ===========================================================
 
 STUDENT INSTRUCTIONS:
+Author: Dimitrios Kakoullis
 
 This assignment is designed to help you understand how graphs
 are traversed using Breadth-First Search (BFS) and how this
@@ -32,8 +33,29 @@ def bfs(graph, start):
     - Why neighbors are added to the queue.
     - How BFS differs from depth-first traversal.
     """
+    #Handle edge case where start node is missing
+    if start not in graph:
+        print(f"Error: Start node '{start}' not found in graph.")
+        return []
+    #queue is First-IN-First-OUT(FIFO)
+    #This ensures we process all immediate neighbors before moving deeper
+    queue = deque([start])
 
-    pass
+    #Track nodes that have been visted to prevent loops from running forever
+    visited = set([start])
+    traversal_order = []
+
+    while queue:
+        current = queue.popleft()
+        traversal_order.append(current)
+        #Neighbors are added to queue and appended to get checked level by level
+        #Depth-First Search uses a stack (LIFO) to plunge as deep as possible down single path before backtracking
+        for neighbor in graph.get(current, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+    return traversal_order
 
 
 def main():
@@ -50,13 +72,26 @@ def main():
     # 4. Clearly display the graph structure.
     # 5. Use comments to explain what the nodes and edges represent.
 
+    #Creating a model of a simple local area network. Nodes represent network hardware(switch, gateway, endpoints)
+    #Edges represent ethernet cable or wifi connections between nodes
+    network_graph = {
+        'Motorola_Gateway': ['Network_Switch', 'Acer_Laptop'],
+        'Network_Switch': ['Motorola_Gateway', 'Custom_PC', 'Time_Capsule', 'Formlabs_Printer'],
+        'Custom_PC': ['Network_Switch'],
+        'Time_Capsule': ['Network_Switch'],
+        'Formlabs_Printer': ['Network_Switch'],
+        'Acer_Laptop': ['Motorola_Gateway']
+    }
     print("\n=== GRAPH STRUCTURE ===")
-    print("TODO: Create and display a graph.")
+    for node, edges in network_graph.items():
+        print(f"{node} is connected to: {', '.join(edges)}")
 
-    # ===============================
+
+# ===============================
     # TODO (Student): BFS TRAVERSAL
     # ===============================
-    #
+    print("\n=== BFS TRAVERSAL ===")
+
     # Requirements:
     # 1. Select a starting node.
     # 2. Perform BFS traversal.
@@ -66,7 +101,16 @@ def main():
     #    and demonstrate the updated traversal.
 
     print("\n=== BFS TRAVERSAL ===")
-    print("TODO: Perform and explain BFS traversal.")
+    print("Start BFS from Motorola_Gateway...")
+    #BFS visits layer by layer: First the gateway, then switch/laptop, followed by
+    #everything connected down the line to the switch
+    print("Initial Traversal Order:", bfs(network_graph, 'Motorola_Gateway'))
+
+    print("\nAdding a new Smartphone to the Wi-Fi (connecting to Gateway)... ")
+    network_graph['Motorola_Gateway'].append('Smartphone')
+    network_graph['Smartphone'] = ['Motorola_Gateway']
+
+    print("Updated Traversal Order:", bfs(network_graph, 'Motorola_Gateway'))
 
     # ===============================
     # TODO (Student): EDGE CASES
@@ -84,7 +128,16 @@ def main():
     # Explain what happens in each case.
 
     print("\n=== EDGE CASE TESTS ===")
-    print("TODO: Demonstrate and explain edge cases.")
+    # Edge Case 1: Missing Start Node safely handled
+    print("Test 1: Starting from a node that doesn't exist (Unknown_Device).")
+    bfs(network_graph, 'Unknown_Device')
+
+    # Edge Case 2: Disconnected Graph / Isolated Node
+    print("\nTest 2: Adding a disconnected device (Old_Tablet) with no connections.")
+    network_graph['Old_Tablet'] = []
+
+    print("Starting BFS from Old_Tablet (should only visit itself):")
+    print("Traversal Order:", bfs(network_graph, 'Old_Tablet'))
 
 
 

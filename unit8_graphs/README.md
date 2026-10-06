@@ -31,3 +31,9 @@ Your reflection should be approximately 150–200 words and address the followin
 2. What challenges did you encounter, and how did you overcome them?
 3. Compare BFS and DFS conceptually and describe real-world applications and use cases.
 
+For this project, I created a local area network graph using a Python dictionary to act
+as an adjacency list. I implemented a Breadth-First Search (BFS) algorithm using a deque 
+queue to traverse the network layer by layer. I added a new Smartphone node to the 
+gateway to show how the graph updates dynamically. Finally, I tested two edge cases: a 
+missing start node and an isolated, disconnected device to ensure the code handled errors
+safely without crashing.
